@@ -28,6 +28,8 @@ pub fn run() {
                 continue;
             }
 
+            "echo" => crate::tools::echo::run(&args),
+
             _ => match Command::new(command).args(args).spawn() {
                 Ok(mut child) => {
                     child.wait().unwrap();
