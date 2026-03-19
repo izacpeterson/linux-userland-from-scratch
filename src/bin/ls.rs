@@ -1,6 +1,6 @@
 use std::fs;
 
-pub fn run() {
+fn main() {
     let path = ".";
 
     let entries = fs::read_dir(path).unwrap();
