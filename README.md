@@ -1,40 +1,46 @@
 # linux-userland-from-scratch
 
-Building a mini Linux userland from scratch in Rust — not just a few tools, but an actual bootable system. There's no glibc, no busybox, no existing userland. Just Rust binaries, a kernel, and whatever I've written so far. The shell runs as PID 1.
+Building a tiny Linux userland from scratch in Rust because apparently I hate myself (affectionately). No glibc, no busybox, no pre-made anything. Just raw Rust binaries, a kernel, and vibes. The shell runs as PID 1 and `init` just keeps restarting it if it dies, which is honestly a valid life philosophy.
 
 ## How it works
 
-1. Rust tools compile to static musl binaries (no libc, no dependencies)
+1. Rust tools compile to static musl binaries — no libc, no dependencies, no excuses
 2. They get installed into a `rootfs/` directory
-3. `sh` gets copied to `/sbin/init` — the first thing the kernel runs
-4. The rootfs is packed into an initramfs
-5. QEMU boots a custom Linux kernel with it — or it can be packed into a bootable ISO
+3. `init` runs as PID 1, immediately spawns a shell, and loops forever if it crashes
+4. The rootfs gets packed into an initramfs
+5. QEMU boots a custom Linux kernel with it — or it can be turned into a bootable ISO
 
 ## Userland so far
 
-| Binary | What it does        |
-| ------ | ------------------- |
-| `sh`   | shell / PID 1       |
-| `ls`   | list files          |
-| `cat`  | print file contents |
-| `echo` | print stuff         |
+| Binary  | What it does                              |
+| ------- | ----------------------------------------- |
+| `init`  | PID 1, babysits the shell                 |
+| `sh`    | a shell, the one thing you actually need  |
+| `ls`    | look at your files                        |
+| `cat`   | print a file into the void               |
+| `echo`  | yell things at stdout                     |
 
 ## Running it
 
-You'll need the `x86_64-unknown-linux-musl` Rust target, a built Linux kernel, and QEMU.
+You'll need:
+- The `x86_64-unknown-linux-musl` Rust target
+- A built Linux kernel
+- QEMU
 
 ```sh
-make          # build + pack initramfs
-make boot     # boot directly in QEMU (serial console)
+make          # build everything and pack the initramfs
+make boot     # boot in QEMU with a serial console
 
-make iso      # build a bootable ISO with GRUB
-make boot-iso # boot the ISO in QEMU (with display)
+make iso      # wrap it in a GRUB bootable ISO
+make boot-iso # boot the ISO in QEMU (with a display this time)
 
-make clean    # clean up everything
+make clean    # burn it all down and start over
 ```
 
-The ISO can also be flashed to a USB drive and booted on real hardware:
+Want to boot it on real hardware? Flash the ISO to a USB drive:
 
 ```sh
 dd if=boot.iso of=/dev/sdX bs=4M status=progress
 ```
+
+(double-check your `/dev/sdX` before running that, you know the drill)
