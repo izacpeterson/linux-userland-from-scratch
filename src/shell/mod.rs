@@ -29,6 +29,8 @@ pub fn run() {
             }
 
             "echo" => crate::tools::echo::run(&args),
+            "ls" => crate::tools::ls::run(),
+            "cat" => crate::tools::cat::run(args.get(0).unwrap()),
 
             _ => match Command::new(command).args(args).spawn() {
                 Ok(mut child) => {
