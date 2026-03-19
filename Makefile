@@ -8,6 +8,7 @@ SH := $(TARGET)/sh
 LS := $(TARGET)/ls
 CAT := $(TARGET)/cat
 ECHO := $(TARGET)/echo
+INIT := ${TARGET}/init
 
 .PHONY: all build install pack boot iso boot-iso clean
 
@@ -18,12 +19,12 @@ build:
 
 install:
 	mkdir -p rootfs/bin rootfs/sbin
-	cp $(SH) rootfs/sbin/init
+	cp $(INIT) rootfs/sbin/init
 	cp $(SH) rootfs/bin/sh
 	cp $(LS) rootfs/bin/ls
 	cp $(CAT) rootfs/bin/cat
 	cp $(ECHO) rootfs/bin/echo
-	chmod +x rootfs/sbin/init rootfs/bin/sh rootfs/bin/ls rootfs/bin/cat rootfs/bin/echo
+	chmod +x rootfs/sbin/*
 
 pack:
 	cd rootfs && find . | cpio -o -H newc | gzip > ../$(INITRD)

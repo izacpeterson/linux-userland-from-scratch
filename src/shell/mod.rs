@@ -5,7 +5,6 @@ use std::{
 };
 
 pub fn run() {
-    println!("Welcome to izacos");
     loop {
         let current_dir = std::env::current_dir().unwrap();
         print!("{} > ", current_dir.display());
