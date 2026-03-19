@@ -8,7 +8,7 @@ Building a mini Linux userland from scratch in Rust — not just a few tools, bu
 2. They get installed into a `rootfs/` directory
 3. `sh` gets copied to `/sbin/init` — the first thing the kernel runs
 4. The rootfs is packed into an initramfs
-5. QEMU boots a custom Linux kernel with it
+5. QEMU boots a custom Linux kernel with it — or it can be packed into a bootable ISO
 
 ## Userland so far
 
@@ -24,7 +24,17 @@ Building a mini Linux userland from scratch in Rust — not just a few tools, bu
 You'll need the `x86_64-unknown-linux-musl` Rust target, a built Linux kernel, and QEMU.
 
 ```sh
-make        # build + pack initramfs
-make boot   # boot in QEMU
-make clean  # clean up
+make          # build + pack initramfs
+make boot     # boot directly in QEMU (serial console)
+
+make iso      # build a bootable ISO with GRUB
+make boot-iso # boot the ISO in QEMU (with display)
+
+make clean    # clean up everything
+```
+
+The ISO can also be flashed to a USB drive and booted on real hardware:
+
+```sh
+dd if=boot.iso of=/dev/sdX bs=4M status=progress
 ```
