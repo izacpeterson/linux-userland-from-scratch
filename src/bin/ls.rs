@@ -8,6 +8,16 @@ fn main() {
 
     for entry in entries {
         let entry = entry.unwrap();
-        println!("{}", entry.path().display());
+
+        let is_dir = entry.file_type().unwrap().is_dir();
+
+        let name = entry.file_name();
+        let name = name.to_string_lossy();
+
+        if is_dir {
+            println!("/{}", name);
+        } else {
+            println!("{}", name);
+        }
     }
 }
