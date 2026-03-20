@@ -10,6 +10,9 @@ LS := $(TARGET)/ls
 CAT := $(TARGET)/cat
 ECHO := $(TARGET)/echo
 PWD := $(TARGET)/pwd
+WRITE := $(TARGET)/write
+CLEAR := $(TARGET)/clear
+
 
 .PHONY: all build install pack boot iso boot-iso clean
 
@@ -28,8 +31,13 @@ install:
 	cp $(SH) rootfs/bin/sh
 	cp $(LS) rootfs/bin/ls
 	cp $(CAT) rootfs/bin/cat
+	cp $(CAT) rootfs/bin/read
 	cp $(ECHO) rootfs/bin/echo
 	cp $(PWD) rootfs/bin/pwd
+	cp $(WRITE) rootfs/bin/write
+	cp $(CLEAR) rootfs/bin/clear
+
+
 	chmod +x rootfs/sbin/* rootfs/bin/*
 
 
