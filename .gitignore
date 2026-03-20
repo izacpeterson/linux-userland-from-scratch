@@ -1,1 +1,9 @@
 /target
+
+# Build artifacts
+*.iso
+*.cpio.gz
+iso_root/boot/
+
+# Local Claude config
+.claude/
