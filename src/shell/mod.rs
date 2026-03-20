@@ -6,8 +6,7 @@ use std::{
 
 pub fn run() {
     loop {
-        let current_dir = std::env::current_dir().unwrap();
-        print!("{} > ", current_dir.display());
+        print!("> ");
 
         let _ = stdout().flush();
 

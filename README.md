@@ -2,6 +2,8 @@
 
 Building a tiny Linux userland from scratch in Rust because apparently I hate myself (affectionately). No glibc, no busybox, no pre-made anything. Just raw Rust binaries, a kernel, and vibes. The shell runs as PID 1 and `init` just keeps restarting it if it dies, which is honestly a valid life philosophy.
 
+I really just wanted to learn a bit more about Linux, and imporove my rust skills. This seemed like a good way to do both.
+
 ## How it works
 
 1. Rust tools compile to static musl binaries — no libc, no dependencies, no excuses
@@ -12,17 +14,18 @@ Building a tiny Linux userland from scratch in Rust because apparently I hate my
 
 ## Userland so far
 
-| Binary  | What it does                              |
-| ------- | ----------------------------------------- |
-| `init`  | PID 1, babysits the shell                 |
-| `sh`    | a shell, the one thing you actually need  |
-| `ls`    | look at your files                        |
-| `cat`   | print a file into the void               |
-| `echo`  | yell things at stdout                     |
+| Binary | What it does                             |
+| ------ | ---------------------------------------- |
+| `init` | PID 1, babysits the shell                |
+| `sh`   | a shell, the one thing you actually need |
+| `ls`   | look at your files                       |
+| `cat`  | print a file into the void               |
+| `echo` | yell things at stdout                    |
 
 ## Running it
 
 You'll need:
+
 - The `x86_64-unknown-linux-musl` Rust target
 - A built Linux kernel
 - QEMU

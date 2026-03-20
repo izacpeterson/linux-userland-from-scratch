@@ -1,7 +1,8 @@
 use std::fs;
 
 fn main() {
-    let path = ".";
+    // let path = ".";
+    let path = std::env::args().nth(1).unwrap_or_else(|| ".".to_string());
 
     let entries = fs::read_dir(path).unwrap();
 

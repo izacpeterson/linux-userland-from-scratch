@@ -9,6 +9,7 @@ SH := $(TARGET)/sh
 LS := $(TARGET)/ls
 CAT := $(TARGET)/cat
 ECHO := $(TARGET)/echo
+PWD := $(TARGET)/pwd
 
 .PHONY: all build install pack boot iso boot-iso clean
 
@@ -28,6 +29,7 @@ install:
 	cp $(LS) rootfs/bin/ls
 	cp $(CAT) rootfs/bin/cat
 	cp $(ECHO) rootfs/bin/echo
+	cp $(PWD) rootfs/bin/pwd
 	chmod +x rootfs/sbin/* rootfs/bin/*
 
 
@@ -39,7 +41,7 @@ boot: all
 	qemu-system-x86_64 \
 		-kernel $(KERNEL) \
 		-initrd $(INITRD) \
-		-append "console=tty0 console=ttyS0 rdinit=/sbin/init nomodeset loglevel=7" \
+		-append "console=tty0 console=ttyS0 rdinit=/sbin/init nomodeset loglevel=7 quiet" \
 		-nographic
 
 
