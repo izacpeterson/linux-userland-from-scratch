@@ -49,8 +49,10 @@ boot: all
 	qemu-system-x86_64 \
 		-kernel $(KERNEL) \
 		-initrd $(INITRD) \
-		-append "console=tty0 console=ttyS0 rdinit=/sbin/init nomodeset loglevel=7 quiet" \
-		-nographic
+		-append "console=tty0 console=ttyS0 rdinit=/bin/busybox init nomodeset loglevel=7 quiet" \
+		-nographic \
+		-netdev user,id=net0 \
+		-device e1000,netdev=net0
 
 
 iso: all
