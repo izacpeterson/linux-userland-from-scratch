@@ -1,26 +1,31 @@
 # linux-userland-from-scratch
 
-Building a tiny Linux userland from scratch in Rust because apparently I hate myself (affectionately). No glibc, no busybox, no pre-made anything. Just raw Rust binaries, a kernel, and vibes. The shell runs as PID 1 and `init` just keeps restarting it if it dies, which is honestly a valid life philosophy.
+Building a tiny Linux userland from scratch in Rust because apparently I hate myself (affectionately). Just raw Rust binaries, a kernel, and vibes. I wrote my own init and shell — they worked, mostly, until they didn't. Busybox handles those now. No shame. I also picked up micro for editing files like a civilized person, and QuickJS because JavaScript deserves to run on a 3MB system too.
 
-I really just wanted to learn a bit more about Linux, and imporove my rust skills. This seemed like a good way to do both.
+I really just wanted to learn a bit more about Linux, and improve my rust skills. This seemed like a good way to do both.
 
 ## How it works
 
 1. Rust tools compile to static musl binaries — no libc, no dependencies, no excuses
-2. They get installed into a `rootfs/` directory
-3. `init` runs as PID 1, immediately spawns a shell, and loops forever if it crashes
+2. Busybox handles init and the shell (my versions were mid, it happens)
+3. Everything gets installed into a `rootfs/` directory
 4. The rootfs gets packed into an initramfs
 5. QEMU boots a custom Linux kernel with it — or it can be turned into a bootable ISO
 
 ## Userland so far
 
-| Binary | What it does                             |
-| ------ | ---------------------------------------- |
-| `init` | PID 1, babysits the shell                |
-| `sh`   | a shell, the one thing you actually need |
-| `ls`   | look at your files                       |
-| `cat`  | print a file into the void               |
-| `echo` | yell things at stdout                    |
+| Binary  | What it does                              |
+| ------- | ----------------------------------------- |
+| `init`  | PID 1, courtesy of busybox                |
+| `sh`    | busybox shell, the one thing you need     |
+| `micro` | a real text editor, for real people       |
+| `qjs`   | QuickJS — JavaScript on a tiny Linux box  |
+| `ls`    | look at your files                        |
+| `cat`   | print a file into the void                |
+| `echo`  | yell things at stdout                     |
+| `pwd`   | where even am I                           |
+| `write` | write text to a file like a normal person |
+| `clear` | out with the old                          |
 
 ## Running it
 
